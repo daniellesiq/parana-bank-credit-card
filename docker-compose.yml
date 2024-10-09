@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  rabbitmq:
+    container_name: "rabbitmq-parana-bank"  
+    image: masstransit/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: 
+      RABBITMQ_DEFAULT_PASS: 
+
+volumes:
+  rabbitmq_data:
