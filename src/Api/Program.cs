@@ -1,16 +1,20 @@
+using parana_bank_credit_card.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
-
-
+var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddMediatR();
+builder.Services.AddMassTransitExtension(configuration);
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseExceptionHandler("/Home/Error");
 }
 
 app.UseHttpsRedirection();
