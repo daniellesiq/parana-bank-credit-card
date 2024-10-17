@@ -21,7 +21,10 @@ namespace Worker.Message
             var correlationId = context.Message.CorrelationId;
             try
             {
-                _logger.LogInformation($"Event received: {nameof(CreditCardConsumer)}: {correlationId} ");
+                _logger.LogInformation("Event received: {Class} | CorrelationId: {CorrelationId} | Document: {Document}",
+                   nameof(CreditCardConsumer),
+                   context.Message.CorrelationId,
+                   context.Message.Document);
 
                 var input = CreditCardMappers.EventToInput(context);
                 await _mediator.Send(input);

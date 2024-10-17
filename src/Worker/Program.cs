@@ -1,6 +1,7 @@
 using Domain.Events;
 using Domain.UseCases.Boundaries;
 using MassTransit;
+using Worker.Definitions;
 using Worker.Message;
 
 var configuration = new ConfigurationBuilder()
@@ -19,7 +20,7 @@ var host = Host.CreateDefaultBuilder(args)
         collection.AddMassTransit(x =>
         {
             x.AddDelayedMessageScheduler();
-            x.AddConsumer<CreditCardConsumer>();
+            x.AddConsumer<CreditCardConsumer>(typeof(CreditCardConsumerDefinition));
             x.AddRequestClient<CreditCardEvent>();
 
             x.SetKebabCaseEndpointNameFormatter();

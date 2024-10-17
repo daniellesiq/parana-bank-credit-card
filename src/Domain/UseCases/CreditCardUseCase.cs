@@ -1,5 +1,4 @@
-﻿using Domain.Events;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using Domain.Mappers;
 using Domain.UseCases.Boundaries;
 using MassTransit;
