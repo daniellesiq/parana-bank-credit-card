@@ -3,6 +3,7 @@ using Domain.Mappers;
 using Domain.UseCases.Boundaries;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace Domain.UseCases
 {
@@ -25,13 +26,13 @@ namespace Domain.UseCases
                      nameof(CreditCardUseCase),
                     input.CorrelationId);
 
-                var cardEvent = CreditCardMappers.InputToEvent(input, GetCreditCardNumber());
+                var cardEvent = CreditCardMappers.InputToEvent(input, GetCreditCardNumber(16));
 
                 await _publisher.Publish(cardEvent, cancellationToken);
 
-                _logger.LogInformation("{Class} | Ending | CorrelationId: {CorrelationId}",
-                    nameof(CreditCardUseCase),
-                    input.CorrelationId);
+                _logger.LogInformation("Sent event | Ending | CorrelationId: {CorrelationId} | Document: {Document}",
+                   input.CorrelationId,
+                   input.Document);
 
                 return "";
             }
@@ -42,10 +43,18 @@ namespace Domain.UseCases
             }
         }
 
-        public long GetCreditCardNumber()
+        public static string GetCreditCardNumber(int length)
         {
-            Random randon = new Random();
-            return randon.Next(1, 13);
+            var random = new Random();
+            var stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < length; i++)
+            {
+                int numero = random.Next(0, 10);
+                stringBuilder.Append(numero);
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

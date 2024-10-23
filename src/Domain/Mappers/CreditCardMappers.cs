@@ -8,25 +8,29 @@ namespace Domain.Mappers
     {
         public static CreditCardInput EventToInput(ConsumeContext<CreditCardEvent> clientEvent)
         {
-            return new CreditCardInput(
-                clientEvent.Message.CorrelationId,
-                clientEvent.Message.Document,
-                clientEvent.Message.Income,
-                clientEvent.Message.Score,
-                clientEvent.Message.CreditLimit
-                );
+            var creditCardInput = new CreditCardInput
+            {
+                CorrelationId = clientEvent.Message.CorrelationId,
+                Document = clientEvent.Message.Document,
+                Income = clientEvent.Message.Income,
+                Score = clientEvent.Message.Score,
+                CreditLimit = clientEvent.Message.CreditLimit
+            };
+            return creditCardInput;
         }
 
-        public static CreditCardValidatedEvent InputToEvent(CreditCardInput input, long creditCardNumber)
+        public static CreditCardValidatedEvent InputToEvent(CreditCardInput input, string creditCardNumber)
         {
-            return new CreditCardValidatedEvent(
-                input.CorrelationId,
-                input.Document,
-                input.Income,
-                input.Score,
-                input.CreditLimit,
-                creditCardNumber
-                );
+            var creditCardValidatedEvent = new CreditCardValidatedEvent
+            {
+                CorrelationId = input.CorrelationId,
+                Document = input.Document,
+                Income = input.Income,
+                Score = input.Score,
+                CreditLimit = input.CreditLimit,
+                CreditCardNumber = creditCardNumber
+            };
+           return creditCardValidatedEvent;
         }
     }
 }
